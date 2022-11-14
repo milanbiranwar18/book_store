@@ -1,10 +1,9 @@
 # Create your views here.
 import json
 import logging
-
 # Create your views here.
+from django.contrib.auth import authenticate
 from django.http import JsonResponse
-
 from .models import User
 
 logging.basicConfig(filename="django.log",
@@ -20,7 +19,7 @@ def user_registration(request):
     try:
         data = json.loads(request.body)
         if request.method == 'POST':
-            user = User.objects.create(first_name=data.get('first_name'), last_name=data.get('last_name'),
+            user = User.objects.create_user(first_name=data.get('first_name'), last_name=data.get('last_name'),
                                        username=data.get('username'), password=data.get('password'),
                                        email=data.get('email'), mob_number=data.get('mob_number'),
                                        location=data.get('location'))
@@ -31,7 +30,7 @@ def user_registration(request):
         return JsonResponse({"Message": "Method not allowed"}, status=400)
     except Exception as e:
         logging.error(e)
-        return JsonResponse({"message": str(e), }, status=400)
+        return JsonResponse({"message": str(e)}, status=400)
 
 
 def user_login(request):
@@ -41,12 +40,11 @@ def user_login(request):
     try:
         data = json.loads(request.body)
         if request.method == 'POST':
-            user = User.objects.filter(username=data.get('username'), password=data.get('password')).first()
-            if user is not None:
+            user = authenticate(username=data.get('username'), password=data.get('password'))
+            if user:
                 return JsonResponse({"Message": "login successful"})
             return JsonResponse({"Message": "Invalid Credential"}, status=204)
         return JsonResponse({"Message": "Method not allowed"}, status=400)
-
     except Exception as e:
         logging.error(e)
         return JsonResponse({"message": str(e)}, status=400)

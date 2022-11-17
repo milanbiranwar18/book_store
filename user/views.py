@@ -23,7 +23,7 @@ class Registration(APIView):
             serializer = RegistrationSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data, status=201)
+            return Response({"message":"Registered Successfully", "data":serializer.data, "status":201})
         except Exception as e:
             logging.error(e)
             return Response({"message": str(e)}, status=400)
@@ -39,7 +39,7 @@ class Login(APIView):
             serializer = LoginSerializer(data=request.data)
             serializer.is_valid()
             serializer.save()
-            return Response('Login Successfully', status=202)
+            return Response({"message":"Login Successfully", "status":202})
         except Exception as e:
             logging.error(e)
             return Response({"message": str(e)}, status=400)

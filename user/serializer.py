@@ -29,11 +29,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=100)
-    password = serializers.CharField(max_length=100)
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(max_length=150)
 
     def create(self, validated_data):
         user = authenticate(**validated_data)
         if not user:
-            raise Exception('Invalid credentials')
+            raise Exception('Invalid Credentials')
         return user

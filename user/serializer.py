@@ -29,6 +29,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(max_length=150)
     password = serializers.CharField(max_length=150)
 
@@ -36,4 +37,6 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(**validated_data)
         if not user:
             raise Exception('Invalid Credentials')
+        if user.is_verified == 0:
+            raise Exception("User not verified")
         return user

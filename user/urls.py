@@ -6,4 +6,5 @@ urlpatterns = [
      path('user_login/', views.Login.as_view(), name ='user_login'),
     # path('users/', views.user_list),
     # path('users/<int:pk>/', views.user_detail),
+    path('verify_token/<str:token>', views.VerifyToken.as_view(), name='verify_token'),
     ]

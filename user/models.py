@@ -3,5 +3,6 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser):
-    mob_number = models.IntegerField(default=10)
-    location = models.CharField(max_length=200)
+    mob_number = models.IntegerField(default=10, blank=True)
+    location = models.CharField(max_length=200, blank=True)
+    is_verified = models.IntegerField(default=0)

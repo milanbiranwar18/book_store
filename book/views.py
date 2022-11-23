@@ -19,7 +19,7 @@ class Books(APIView):
     """
     Class for performing curd operation for book
     """
-    @verify_superuser
+    @verify_token
     def post(self, request):
         """
         Function for add book
